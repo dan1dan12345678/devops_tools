@@ -1,0 +1,11 @@
+Ansible UI
+
+sudo snap install semaphore
+sudo snap services
+sudo snap stop semaphore
+sudo semaphore user list
+
+sudo semaphore user add  --admin --login hax --name hax --email dan311027@gmail.com --password 123456
+sudo snap start semaphore
+
+Open web interface at http://IP:3000
