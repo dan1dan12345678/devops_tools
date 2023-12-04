@@ -1,0 +1,90 @@
+Create from scratch Minikube on docker 
+Create a Jenkins and ArgoCD instances
+use IP adress of the hosts
+
+INstall minikube and dcker
+  Docker
+    1  sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    2  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    3  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    4  sudo apt update
+    5  sudo apt-get install docker-ce -y
+    6  sudo gpasswd -a hax docker
+    7  sudo systemctl status docker
+    8  sudo apt-get install python3-pip -y
+    9  sudo pip3 install docker-py
+   10  sudo apt-get install openssh-server -y
+
+Minikube
+
+   59  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+   60  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+   61  minikube -version
+   62  minikube version
+   67  minikube start --driver=docker
+   68  minikube status
+
+ArgoCD
+
+   78  kubectl create namespace argocd
+   79  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+    Start Argocd portforwart to all IP 
+        kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0
+
+    Loggin with the passwd 
+          103  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
+Jenkins to kubernetes
+   kubectl create namespace jenkins
+
+Create a YML file with content
+-------------------------------------------------
+         apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30000
+  selector:
+    app: jenkins
+-----------------------------------
+
+
+Load the yml to kube
+   ~/jenkins$ kubectl apply -f Jenkins_deploy.yml
+
+Port Fwd to hve acces from local IP
+    kubectl port-forward svc/jenkins -n jenkins 8081:8080 --address 0.0.0.0
+Grep for initial passwd
+    kubectl exec --namespace jenkins -it jenkins-745f96dd-hfqdk -- cat /var/jenkins_home/secrets/initialAdminPassword
+
+
+
+
