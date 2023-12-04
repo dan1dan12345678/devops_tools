@@ -20,7 +20,6 @@ Minikube
 
    59  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
    60  sudo install minikube-linux-amd64 /usr/local/bin/minikube
-   61  minikube -version
    62  minikube version
    67  minikube start --driver=docker
    68  minikube status
