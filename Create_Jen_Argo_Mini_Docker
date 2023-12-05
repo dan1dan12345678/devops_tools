@@ -84,6 +84,16 @@ Port Fwd to hve acces from local IP
     kubectl port-forward svc/jenkins -n jenkins 8081:8080 --address 0.0.0.0
 Grep for initial passwd
     kubectl exec --namespace jenkins -it jenkins-745f96dd-hfqdk -- cat /var/jenkins_home/secrets/initialAdminPassword
+________________________________________
+Or redirect the service via minikube
+    minikube service jenkins -n jenkins
+|-----------|---------|-------------|---------------------------|
+| NAMESPACE |  NAME   | TARGET PORT |            URL            |
+|-----------|---------|-------------|---------------------------|
+| jenkins   | jenkins |        8080 | http://192.168.49.2:30000 |
+|-----------|---------|-------------|---------------------------|
+🎉  Opening service jenkins/jenkins in default browser...
+👉  http://192.168.49.2:30000
 
 
 
