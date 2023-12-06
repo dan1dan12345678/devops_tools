@@ -95,6 +95,10 @@ Or redirect the service via minikube
 🎉  Opening service jenkins/jenkins in default browser...
 👉  http://192.168.49.2:30000
 
+___________________________________________________
+minikube dashboard
+  kubectl port-forward svc/kubernetes-dashboard  -n kubernetes-dashboard 8085:80 --address 0.0.0.0
+
 
 
 
