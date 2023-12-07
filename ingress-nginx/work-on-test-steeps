@@ -1,0 +1,32 @@
+Requirements
+
+1. The nginx-ingress will be able to expose ingresses
+
+2. The nginx-ingress will only search for specific ingresses with annotation nginx-trial, not all existent ingresses
+
+To perform this task, use your local Kubernetes environment (best to use Docker Desktop for easy enabling Kubernetes.
+
+Once the task is completed, compress the chart folder as a .zip file and upload it via the form in your email.
+
+---------------------
+Task used with minikube docker driver on top of KVM with ubuntu 23
+
+  511  kubectl get  po
+  512  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+  513  helm repo update
+  514  helm pull ingress-nginx/ingress-nginx --untar
+  515  ll
+  516  cd ingress-nginx/
+  517  ll
+  518  date
+  519  cat values.yaml
+  520  history
+  521  helm list -n ingress-nginx
+  522  kubectl get all -n ingress-nginx
+  523  ll templates/
+  524  ll
+  525  vim values.yaml 
+  526  helm install infra-nginx-ingress-trial ./ --namespace ingress-nginx --create-namespace
+  527  kubectl get service --namespace ingress-nginx infra-nginx-ingress-trial-ingress-nginx-controller --output wide --watch
+  528  kubectl get svc -n ingress-nginx
+  529  kubectl logs -n ingress-nginx infra-nginx-ingress-trial-ingress-nginx-controller-5d85b6862htj

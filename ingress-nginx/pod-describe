@@ -1,0 +1,85 @@
+~$ kubectl describe pod -n  ingress-nginx
+Name:             infra-nginx-ingress-trial-ingress-nginx-controller-5d85b6862htj
+Namespace:        ingress-nginx
+Priority:         0
+Service Account:  infra-nginx-ingress-trial-ingress-nginx
+Node:             minikube/192.168.49.2
+Start Time:       Thu, 07 Dec 2023 07:42:35 +0000
+Labels:           app.kubernetes.io/component=controller
+                  app.kubernetes.io/instance=infra-nginx-ingress-trial
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=ingress-nginx
+                  app.kubernetes.io/part-of=ingress-nginx
+                  app.kubernetes.io/version=1.9.4
+                  helm.sh/chart=ingress-nginx-4.8.4
+                  pod-template-hash=5d85b68786
+Annotations:      <none>
+Status:           Running
+IP:               10.244.0.45
+IPs:
+  IP:           10.244.0.45
+Controlled By:  ReplicaSet/infra-nginx-ingress-trial-ingress-nginx-controller-5d85b68786
+Containers:
+  controller:
+    Container ID:    docker://32b780450f646eaae933e1edb50f4a4c6f5f8c2ca8135d47dbcd13f6572393a8
+    Image:           registry.k8s.io/ingress-nginx/controller:v1.9.4@sha256:5b161f051d017e55d358435f295f5e9a297e66158f136321d9b04520ec6c48a3
+    Image ID:        docker-pullable://registry.k8s.io/ingress-nginx/controller@sha256:5b161f051d017e55d358435f295f5e9a297e66158f136321d9b04520ec6c48a3
+    Ports:           80/TCP, 443/TCP, 8443/TCP
+    Host Ports:      0/TCP, 0/TCP, 0/TCP
+    SeccompProfile:  RuntimeDefault
+    Args:
+      /nginx-ingress-controller
+      --publish-service=$(POD_NAMESPACE)/infra-nginx-ingress-trial-ingress-nginx-controller
+      --election-id=infra-nginx-ingress-trial-ingress-nginx-leader
+      --controller-class=k8s.io/ingress-nginx
+      --ingress-class=nginx
+      --configmap=$(POD_NAMESPACE)/infra-nginx-ingress-trial-ingress-nginx-controller
+      --validating-webhook=:8443
+      --validating-webhook-certificate=/usr/local/certificates/cert
+      --validating-webhook-key=/usr/local/certificates/key
+    State:          Running
+      Started:      Thu, 07 Dec 2023 07:42:35 +0000
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      cpu:      100m
+      memory:   90Mi
+    Liveness:   http-get http://:10254/healthz delay=10s timeout=1s period=10s #success=1 #failure=5
+    Readiness:  http-get http://:10254/healthz delay=10s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      POD_NAME:       infra-nginx-ingress-trial-ingress-nginx-controller-5d85b6862htj (v1:metadata.name)
+      POD_NAMESPACE:  ingress-nginx (v1:metadata.namespace)
+      LD_PRELOAD:     /usr/local/lib/libmimalloc.so
+    Mounts:
+      /usr/local/certificates/ from webhook-cert (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-l62r7 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  webhook-cert:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  infra-nginx-ingress-trial-ingress-nginx-admission
+    Optional:    false
+  kube-api-access-l62r7:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From                      Message
+  ----    ------     ----  ----                      -------
+  Normal  Scheduled  27m   default-scheduler         Successfully assigned ingress-nginx/infra-nginx-ingress-trial-ingress-nginx-controller-5d85b6862htj to minikube
+  Normal  Pulled     27m   kubelet                   Container image "registry.k8s.io/ingress-nginx/controller:v1.9.4@sha256:5b161f051d017e55d358435f295f5e9a297e66158f136321d9b04520ec6c48a3" already present on machine
+  Normal  Created    27m   kubelet                   Created container controller
+  Normal  Started    27m   kubelet                   Started container controller
+  Normal  RELOAD     27m   nginx-ingress-controller  NGINX reload triggered due to a change in configuration
+hax@ubuntumaster:~$ 
