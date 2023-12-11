@@ -1,1 +1,19 @@
-apt search htop
+---
+- name: Ansible Playbook to Search and Run htop
+  hosts: your_target_hosts  # Replace with your target hosts
+  become: yes  # To run tasks that require sudo privilege
+  tasks:
+    - name: Search for the htop package
+      apt:
+        update_cache: yes
+        name: htop
+        state: present
+
+    - name: Run htop (non-interactive mode)
+      command: htop -d 10 -n 1
+      register: htop_output
+
+    # Optionally, print the output
+    - name: Print htop output
+      debug:
+        var: htop_output.stdout_lines
