@@ -1,10 +1,13 @@
 ---
-- name: Ansible Playbook to Search and Run htop
-  hosts: 192.168.122.134  # Replace with your target hosts
-  become: yes  # To run tasks that require sudo privilege
-  tasks:
-    - name: Search for the htop package
-      apt:
-        update_cache: yes
-        name: htop
-        state: present
+  - name: Playbook
+    hosts: all
+    become: no
+    tasks:
+      - name: ensure apache is at the latest version
+        apt:
+          name: httpd
+          state: latest
+      - name: ensure apache is running
+        service:
+          name: httpd
+          state: started
