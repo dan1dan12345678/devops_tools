@@ -1,3 +1,11 @@
+INSTALL Rancher on Docker Ubuntu
+
+ docker run -d --restart=unless-stopped \
+  -p 80:80 -p 443:443 \
+  --privileged \
+  rancher/rancher:latest
+
+
 Rancher DigitalOcean Quick Start Guide
 The following steps will quickly deploy a Rancher server on DigitalOcean in a single-node K3s Kubernetes cluster, with a single-node downstream Kubernetes cluster attached.
 
